@@ -12,6 +12,8 @@ function _is_git_dirty
 end
 
 function fish_prompt
+  set -l last_status $status
+
   # base colors: soralized (http://ethanschoonover.com/solarized)
   set -l cyan (set_color -o 2aa198)
   set -l yellow (set_color -o b58900)
@@ -20,7 +22,7 @@ function fish_prompt
   set -l green (set_color -o 2aa198)
   set -l normal (set_color normal)
 
-  if test $status = 0
+  if test $last_status = 0
       set arrow "\U1F41F " # fish
   else
       set arrow "\U1F4A3 " # bomb
