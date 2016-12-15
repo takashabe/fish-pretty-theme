@@ -11,10 +11,6 @@ function _is_git_dirty
   echo (command git status -s --ignore-submodules=dirty $untracked ^/dev/null)
 end
 
-function _is_macos
-  echo (command uname -a | grep 'Darwin' ^/dev/null)
-end
-
 function fish_prompt
   # base colors: soralized (http://ethanschoonover.com/solarized)
   set -l cyan (set_color -o 2aa198)
@@ -41,9 +37,5 @@ function fish_prompt
     end
   end
 
-  if _is_macos
-    printf "$arrow $cwd $git_info $normal"
-  else
-    echo -n -s -e $arrow ' ' $cwd $git_info $normal ' '
-  end
+  printf "$arrow $cwd $git_info $normal"
 end
