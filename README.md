@@ -20,3 +20,9 @@ Download and move to your config directory:
 git clone https://github.com/takashabe/fish-pretty-theme
 mv fish-pretty-theme/fish_prompt.fish ~/.config/fish/functions/
 ```
+
+#### NOTE:
+
+If using iTerm2 + High Sierra, occurring display bug with Emoji.
+
+refs: https://gitlab.com/gnachman/iterm2/issues/6130
