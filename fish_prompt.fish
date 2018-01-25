@@ -18,9 +18,9 @@ function fish_prompt
   set -l normal (set_color normal)
 
   if test $last_status = 0
-      set arrow "\U1F41F " # fish
+      set arrow "\U1F41F" # fish
   else
-      set arrow "\U1F4A3 " # bomb
+      set arrow "\U1F4A3" # bomb
   end
   set -l cwd $cyan(prompt_pwd)
 
