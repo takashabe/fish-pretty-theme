@@ -6,6 +6,11 @@ function _is_git_dirty
   echo (command git status -s --ignore-submodules=dirty $untracked ^/dev/null)
 end
 
+function _k8s_context_name
+  echo (command cat $HOME/.kube/config | grep 'current-context' | cut -f 4 -d '_')
+end
+
+
 function fish_prompt
   set -l last_status $status
 
@@ -34,5 +39,14 @@ function fish_prompt
     end
   end
 
-  printf "$arrow $cwd$git_info $normal"
+  set -l k8s_raw (_k8s_context_name)
+  if test $k8s_raw
+    if test -n (echo $K8S_PRODUCTION_CONTEXT) -a $k8s_raw = $K8S_PRODUCTION_CONTEXT
+      set k8s_info "$red$k8s_raw "
+    else
+      set k8s_info "$yellow$k8s_raw "
+    end
+  end
+
+  printf "$arrow $k8s_info$cwd$git_info $normal"
 end
