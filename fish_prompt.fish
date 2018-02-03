@@ -7,7 +7,12 @@ function _is_git_dirty
 end
 
 function _k8s_context_name
-  echo (command cat $HOME/.kube/config | grep 'current-context' | cut -f 4 -d '_')
+  set -l ctx (cat $HOME/.kube/config | grep 'current-context' | cut -f 2 -d ':' | string trim)
+  if string match 'gke*' ctx
+    echo ($ctx | cut -f 4 -d '_')
+    return
+  end
+  echo $ctx
 end
 
 
