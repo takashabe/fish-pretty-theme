@@ -45,10 +45,10 @@ function fish_prompt
   end
 
   set -l k8s_raw (_k8s_context_name)
-  if test $k8s_raw
-    if test -n (echo $K8S_PRODUCTION_CONTEXT)
-      if $k8s_raw = $K8S_PRODUCTION_CONTEXT
-        set k8s_info "$red$k8s_raw "
+  if test -n "$k8s_raw"
+    if test -n "$K8S_PRODUCTION_CONTEXT"
+      if $k8s_raw -eq $K8S_PRODUCTION_CONTEXT
+        set -l k8s_info "$red$k8s_raw "
       end
     else
       set k8s_info "$yellow$k8s_raw "
