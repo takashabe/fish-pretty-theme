@@ -8,11 +8,11 @@ end
 
 function _k8s_context_name
   set -l ctx (cat $HOME/.kube/config | grep 'current-context' | cut -f 2 -d ':' | string trim)
-  if string match 'gke*' ctx
-    echo ($ctx | cut -f 4 -d '_')
-    return
+  if string match -q 'gke*' $ctx
+    echo (echo $ctx | cut -f 4 -d '_')
+  else
+    echo $ctx
   end
-  echo $ctx
 end
 
 
