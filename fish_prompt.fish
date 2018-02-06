@@ -28,9 +28,9 @@ function fish_prompt
   set -l normal (set_color normal)
 
   if test $last_status = 0
-      set arrow "\U1F41F" # fish
+    set arrow "\U1F41F" # fish
   else
-      set arrow "\U1F4A3" # bomb
+    set arrow "\U1F4A3" # bomb
   end
   set -l cwd $cyan(prompt_pwd)
 
@@ -45,11 +45,9 @@ function fish_prompt
   end
 
   set -l k8s_raw (_k8s_context_name)
-  if test -n "$k8s_raw"
-    if test -n "$K8S_PRODUCTION_CONTEXT"
-      if test "$k8s_raw" -eq "$K8S_PRODUCTION_CONTEXT"
-        set -l k8s_info "$red$k8s_raw "
-      end
+  if test -n $k8s_raw
+    if test -n "$K8S_PRODUCTION_CONTEXT" -a $k8s_raw = "$K8S_PRODUCTION_CONTEXT"
+      set k8s_info "$red$k8s_raw "
     else
       set k8s_info "$yellow$k8s_raw "
     end
