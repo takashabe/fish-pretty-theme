@@ -15,6 +15,23 @@ function _k8s_context_name
   end
 end
 
+function _get_prompt_icon
+  set -l icon "$PROMPT_ICON"
+  if test -n $icon
+    echo $icon
+  else
+    echo "\U1F41F" # fish
+  end
+end
+
+function _get_prompt_error_icon
+  set -l icon "$PROMPT_ERROR_ICON"
+  if test -n $icon
+    echo $icon
+  else
+    echo "\U1F4A3" # bomb
+  end
+end
 
 function fish_prompt
   set -l last_status $status
@@ -28,9 +45,9 @@ function fish_prompt
   set -l normal (set_color normal)
 
   if test $last_status = 0
-    set arrow "\U1F41F" # fish
+    set arrow (_get_prompt_icon)
   else
-    set arrow "\U1F4A3" # bomb
+    set arrow (_get_prompt_error_icon)
   end
   set -l cwd $cyan(prompt_pwd)
 
