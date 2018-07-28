@@ -10,6 +10,7 @@ pretty prompt for fish shell
 - Show environments
     - git status
     - kubernetes context
+    - kubernetes namespace
 
 ## Install
 
