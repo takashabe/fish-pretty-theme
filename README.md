@@ -2,7 +2,14 @@
 
 pretty prompt for fish shell
 
-![sample](http://i.imgur.com/Ex12Oui.png)
+![sample](https://user-images.githubusercontent.com/681508/41527807-3b640666-7323-11e8-9ede-c73cf0b2f9e0.png)
+
+## Features
+
+- Pretty fish icon
+- Show environments
+    - git status
+    - kubernetes context
 
 ## Install
 
