@@ -15,6 +15,14 @@ function _k8s_context_name
   end
 end
 
+function _k8s_namespace
+  set -l ns (cat $HOME/.kube/config | grep 'namespace' | cut -f 2 -d ':' | string trim)
+  if test -n $ns
+    echo $ns
+  else
+    echo 'default'
+  end
+end
 
 function fish_prompt
   set -l last_status $status
@@ -44,14 +52,19 @@ function fish_prompt
     end
   end
 
-  set -l k8s_raw (_k8s_context_name)
-  if test -n $k8s_raw
-    if test -n "$K8S_PRODUCTION_CONTEXT" -a $k8s_raw = "$K8S_PRODUCTION_CONTEXT"
-      set k8s_info "$red$k8s_raw "
+  set -l k8s_ctx_raw (_k8s_context_name)
+  if test -n $k8s_ctx_raw
+    if test -n "$K8S_PRODUCTION_CONTEXT" -a $k8s_ctx_raw = "$K8S_PRODUCTION_CONTEXT"
+      set k8s_ctx_info "$red$k8s_ctx_raw"
     else
-      set k8s_info "$yellow$k8s_raw "
+      set k8s_ctx_info "$yellow$k8s_ctx_raw"
     end
   end
 
-  printf "$arrow $k8s_info$cwd$git_info $normal"
+  set -l k8s_ns_raw (_k8s_namespace)
+  if test -n $k8s_ns_raw
+    set k8s_ns_info "$blue($k8s_ns_raw)"
+  end
+
+  printf "$arrow $k8s_ctx_info$k8s_ns_info $cwd$git_info $normal"
 end
