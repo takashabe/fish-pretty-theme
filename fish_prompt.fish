@@ -17,7 +17,7 @@ end
 
 function _k8s_namespace
   set -l ns (cat $HOME/.kube/config | grep 'namespace' | cut -f 2 -d ':' | string trim)
-  if test -n $ns
+  if test -n (echo $ns)
     echo $ns
   else
     echo 'default'
