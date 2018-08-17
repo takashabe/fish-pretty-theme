@@ -8,6 +8,11 @@ end
 
 function _k8s_context_name
   set -l ctx (cat $HOME/.kube/config | grep 'current-context' | cut -f 2 -d ':' | string trim)
+  echo $ctx
+end
+
+function _k8s_short_context_name
+  set -l ctx (_k8s_context_name)
   if string match -q 'gke*' $ctx
     echo (echo $ctx | cut -f 4 -d '_')
   else
@@ -16,8 +21,10 @@ function _k8s_context_name
 end
 
 function _k8s_namespace
-  set -l ns (cat $HOME/.kube/config | grep 'namespace' | cut -f 2 -d ':' | string trim)
-  if test -n (echo $ns)
+  # TODO: Too slow... can I cache context_name?
+  set -l ctx (_k8s_context_name)
+  set -l ns (kubectl config view -o=jsonpath="{.contexts[?(@.name==\""{$ctx}\"")].context.namespace}")
+  if test -n "$ns"
     echo $ns
   else
     echo 'default'
@@ -70,7 +77,7 @@ function fish_prompt
     end
   end
 
-  set -l k8s_ctx_raw (_k8s_context_name)
+  set -l k8s_ctx_raw (_k8s_short_context_name)
   if test -n $k8s_ctx_raw
     if test -n "$K8S_PRODUCTION_CONTEXT" -a $k8s_ctx_raw = "$K8S_PRODUCTION_CONTEXT"
       set k8s_ctx_info "$red$k8s_ctx_raw"
