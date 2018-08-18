@@ -21,8 +21,8 @@ function _k8s_short_context_name
 end
 
 function _k8s_namespace
-  # TODO: Too slow... can I cache context_name?
   set -l ctx (_k8s_context_name)
+  # TODO: Too slow...
   set -l ns (kubectl config view -o=jsonpath="{.contexts[?(@.name==\""{$ctx}\"")].context.namespace}")
   if test -n "$ns"
     echo $ns
@@ -52,6 +52,10 @@ end
 function fish_prompt
   set -l last_status $status
 
+  # optional prompt
+  set -l flag_k8s_context $PROMPT_ENABLE_K8S_CONTEXT
+  set -l flag_k8s_namespace $PROMPT_ENABLE_K8S_NAMESPACE
+
   # base colors: soralized (http://ethanschoonover.com/solarized)
   set -l cyan (set_color -o 2aa198)
   set -l yellow (set_color -o b58900)
@@ -77,18 +81,22 @@ function fish_prompt
     end
   end
 
-  set -l k8s_ctx_raw (_k8s_short_context_name)
-  if test -n $k8s_ctx_raw
-    if test -n "$K8S_PRODUCTION_CONTEXT" -a $k8s_ctx_raw = "$K8S_PRODUCTION_CONTEXT"
-      set k8s_ctx_info "$red$k8s_ctx_raw"
-    else
-      set k8s_ctx_info "$yellow$k8s_ctx_raw"
+  if test -n "$flag_k8s_context"
+    set -l k8s_ctx_raw (_k8s_short_context_name)
+    if test -n $k8s_ctx_raw
+      if test -n "$K8S_PRODUCTION_CONTEXT" -a $k8s_ctx_raw = "$K8S_PRODUCTION_CONTEXT"
+        set k8s_ctx_info "$red$k8s_ctx_raw"
+      else
+        set k8s_ctx_info "$yellow$k8s_ctx_raw"
+      end
     end
   end
 
-  set -l k8s_ns_raw (_k8s_namespace)
-  if test -n $k8s_ns_raw
-    set k8s_ns_info "$blue($k8s_ns_raw)"
+  if test -n "$flag_k8s_namespace"
+    set -l k8s_ns_raw (_k8s_namespace)
+    if test -n $k8s_ns_raw
+      set k8s_ns_info "$blue($k8s_ns_raw)"
+    end
   end
 
   printf "$arrow $k8s_ctx_info$k8s_ns_info $cwd$git_info $normal"
