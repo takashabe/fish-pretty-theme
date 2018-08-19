@@ -56,13 +56,14 @@ function fish_prompt
   set -l flag_k8s_context $PROMPT_ENABLE_K8S_CONTEXT
   set -l flag_k8s_namespace $PROMPT_ENABLE_K8S_NAMESPACE
 
-  # base colors: soralized (http://ethanschoonover.com/solarized)
-  set -l cyan (set_color -o 2aa198)
-  set -l yellow (set_color -o b58900)
-  set -l red (set_color -o dc322f)
-  set -l blue (set_color -o 268bd2)
-  set -l green (set_color -o 2aa198)
-  set -l normal (set_color normal)
+  # base colors: iceberg(https://github.com/cocopon/iceberg.vim)
+  set -l cyan    (set_color -o 89b8c2)
+  set -l yellow  (set_color -o e2a478)
+  set -l red     (set_color -o e27878)
+  set -l blue    (set_color -o 84a0c6)
+  set -l green   (set_color -o b4be82)
+  set -l magenta (set_color -o a093c7)
+  set -l normal  (set_color normal)
 
   if test $last_status = 0
     set arrow (_get_prompt_icon)
