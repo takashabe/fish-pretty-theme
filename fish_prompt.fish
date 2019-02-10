@@ -65,6 +65,8 @@ function fish_prompt
   set -l magenta (set_color -o a093c7)
   set -l normal  (set_color normal)
 
+  set -l now (date "+[%H:%M:%S]")
+
   if test $last_status = 0
     set arrow (_get_prompt_icon)
   else
@@ -100,5 +102,5 @@ function fish_prompt
     end
   end
 
-  printf "$arrow $k8s_ctx_info$k8s_ns_info $cwd$git_info $normal"
+  printf "$now $arrow $k8s_ctx_info$k8s_ns_info $cwd$git_info $normal"
 end
