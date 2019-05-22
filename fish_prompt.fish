@@ -6,6 +6,15 @@ function _is_git_dirty
   echo (command git status -s --ignore-submodules=dirty $untracked ^/dev/null)
 end
 
+function _xdg_config_home
+  set -l dir "$XDG_CONFIG_HOME"
+  if test -n $dir
+    echo dir
+  else
+    echo "$HOME/.config"
+  end
+end
+
 function _k8s_context_name
   set -l ctx (cat $HOME/.kube/config | grep 'current-context' | cut -f 2 -d ':' | string trim)
   echo $ctx
@@ -28,6 +37,16 @@ function _k8s_namespace
     echo $ns
   else
     echo 'default'
+  end
+end
+
+function _gcloud_project
+  set -l config_home (_xdg_config_home)
+  set -l prj (cat "$config_home"/gcloud/configurations/"config_"(cat "$config_home"/gcloud/active_config) | grep project | awk -F ' = ' '{print $2}')
+  if test -n "$prj"
+    echo $prj
+  else
+    echo ''
   end
 end
 
@@ -55,6 +74,7 @@ function fish_prompt
   # optional prompt
   set -l flag_k8s_context $PROMPT_ENABLE_K8S_CONTEXT
   set -l flag_k8s_namespace $PROMPT_ENABLE_K8S_NAMESPACE
+  set -l flag_gcloud_project $PROMPT_ENABLE_GCLOUD_PROJECT
 
   # base colors: iceberg(https://github.com/cocopon/iceberg.vim)
   set -l cyan    (set_color -o 89b8c2)
@@ -102,5 +122,12 @@ function fish_prompt
     end
   end
 
-  printf "$now $arrow $k8s_ctx_info$k8s_ns_info $cwd$git_info $normal"
+  if test -n "$flag_gcloud_project"
+    set -l gcloud_project (_gcloud_project)
+    if test -n $gcloud_project
+      set gcloud_project_info " $magenta($gcloud_project)"
+    end
+  end
+
+  printf "$now $arrow $k8s_ctx_info$k8s_ns_info$gcloud_project_info $cwd$git_info $normal"
 end
