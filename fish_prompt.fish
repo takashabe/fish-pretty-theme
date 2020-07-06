@@ -104,7 +104,7 @@ function fish_prompt
     end
   end
 
-  if test -n "$flag_k8s_context"
+  if test $flag_k8s_context -eq 1
     set -l k8s_ctx_raw (_k8s_short_context_name)
     if test -n $k8s_ctx_raw
       if test -n "$K8S_PRODUCTION_CONTEXT" -a $k8s_ctx_raw = "$K8S_PRODUCTION_CONTEXT"
@@ -115,14 +115,14 @@ function fish_prompt
     end
   end
 
-  if test -n "$flag_k8s_namespace"
+  if test $flag_k8s_namespace -eq 1
     set -l k8s_ns_raw (_k8s_namespace)
     if test -n $k8s_ns_raw
       set k8s_ns_info "$blue($k8s_ns_raw)"
     end
   end
 
-  if test -n "$flag_gcloud_project"
+  if test $flag_gcloud_project -eq 1
     set -l gcloud_project (_gcloud_project)
     if test -n $gcloud_project
       set gcloud_project_info " $magenta($gcloud_project)"
