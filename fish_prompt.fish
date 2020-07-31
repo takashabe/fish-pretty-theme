@@ -129,5 +129,5 @@ function fish_prompt
     end
   end
 
-  printf "$now $arrow $k8s_ctx_info$k8s_ns_info$gcloud_project_info $cwd$git_info $normal"
+  printf "$now $arrow $k8s_ctx_info$k8s_ns_info$gcloud_project_info $cwd$git_info $normal\$"
 end
