@@ -9,7 +9,7 @@ end
 function _xdg_config_home
   set -l dir "$XDG_CONFIG_HOME"
   if test -n $dir
-    echo dir
+    echo $dir
   else
     echo "$HOME/.config"
   end
