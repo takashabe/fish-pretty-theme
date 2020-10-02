@@ -16,6 +16,11 @@ function _xdg_config_home
 end
 
 function _k8s_context_name
+  if test ! -e $HOME/.kube/config
+    echo ""
+    return
+  end
+
   set -l ctx (cat $HOME/.kube/config | grep 'current-context' | cut -f 2 -d ':' | string trim)
   echo $ctx
 end
@@ -41,6 +46,11 @@ function _k8s_namespace
 end
 
 function _gcloud_project
+  if test ! -e "$config_home"/gcloud/active_config
+    echo ""
+    return
+  end
+
   set -l config_home (_xdg_config_home)
   set -l prj (cat "$config_home"/gcloud/configurations/"config_"(cat "$config_home"/gcloud/active_config) | grep project | awk -F ' = ' '{print $2}')
   if test -n "$prj"
