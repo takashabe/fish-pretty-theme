@@ -85,6 +85,7 @@ function fish_prompt
   set -l flag_k8s_context $PROMPT_ENABLE_K8S_CONTEXT
   set -l flag_k8s_namespace $PROMPT_ENABLE_K8S_NAMESPACE
   set -l flag_gcloud_project $PROMPT_ENABLE_GCLOUD_PROJECT
+  set -l flag_show_err_status $PROMPT_SHOW_ERR_STATUS
 
   # base colors: iceberg(https://github.com/cocopon/iceberg.vim)
   set -l cyan    (set_color -o 89b8c2)
@@ -100,7 +101,10 @@ function fish_prompt
   if test $last_status = 0
     set arrow (_get_prompt_icon)
   else
-    set arrow (_get_prompt_error_icon)
+    set arrow $red(_get_prompt_error_icon)
+    if test -n $flag_show_err_status
+      set arrow "$arrow $last_status"
+    end
   end
   set -l cwd $cyan(prompt_pwd)
 
