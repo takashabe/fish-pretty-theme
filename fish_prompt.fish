@@ -46,12 +46,13 @@ function _k8s_namespace
 end
 
 function _gcloud_project
+  set -l config_home (_xdg_config_home)
+
   if test ! -e "$config_home"/gcloud/active_config
-    echo ""
+    echo ''
     return
   end
 
-  set -l config_home (_xdg_config_home)
   set -l prj (cat "$config_home"/gcloud/configurations/"config_"(cat "$config_home"/gcloud/active_config) | grep project | awk -F ' = ' '{print $2}')
   if test -n "$prj"
     echo $prj
