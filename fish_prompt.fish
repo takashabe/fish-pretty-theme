@@ -123,9 +123,9 @@ function fish_prompt
     set -l k8s_ctx_raw (_k8s_short_context_name)
     if test -n $k8s_ctx_raw
       if test -n "$K8S_PRODUCTION_CONTEXT" -a $k8s_ctx_raw = "$K8S_PRODUCTION_CONTEXT"
-        set k8s_ctx_info "$red$k8s_ctx_raw"
+        set k8s_ctx_info "$red|$k8s_ctx_raw"
       else
-        set k8s_ctx_info "$yellow$k8s_ctx_raw"
+        set k8s_ctx_info "$yellow|$k8s_ctx_raw"
       end
     end
   end
@@ -140,9 +140,9 @@ function fish_prompt
   if test $flag_gcloud_project -eq 1
     set -l gcloud_project (_gcloud_project)
     if test -n $gcloud_project
-      set gcloud_project_info " $magenta($gcloud_project)"
+      set gcloud_project_info " $magenta|$gcloud_project"
     end
   end
 
-  printf "$now $arrow $k8s_ctx_info$k8s_ns_info$gcloud_project_info $cwd$git_info $normal"
+  printf "$now $arrow$k8s_ctx_info$k8s_ns_info$gcloud_project_info|$cwd$git_info $normal"
 end
