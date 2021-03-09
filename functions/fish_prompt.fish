@@ -89,13 +89,13 @@ function fish_prompt
   set -l flag_show_err_status $PROMPT_SHOW_ERR_STATUS
 
   # base colors: https://github.com/joshdick/onedark.vim
-  set -l cyan    (set_color -o 56b6c2)
-  set -l yellow  (set_color -o e5c07b)
-  set -l red     (set_color -o e06c75)
-  set -l blue    (set_color -o 61afef)
-  set -l green   (set_color -o 98c379)
-  set -l magenta (set_color -o c678dd)
-  set -l normal  (set_color -o abb2bf)
+  set -l cyan    (set_color 56b6c2)
+  set -l yellow  (set_color e5c07b)
+  set -l red     (set_color e06c75)
+  set -l blue    (set_color 61afef)
+  set -l green   (set_color 98c379)
+  set -l magenta (set_color c678dd)
+  set -l normal  (set_color abb2bf)
 
   set -l now $normal(date "+[%H:%M:%S]")
 
