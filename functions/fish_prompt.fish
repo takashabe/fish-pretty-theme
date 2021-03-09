@@ -140,9 +140,9 @@ function fish_prompt
   if test $flag_gcloud_project -eq 1
     set -l gcloud_project (_gcloud_project)
     if test -n $gcloud_project
-      set gcloud_project_info " $magenta$gcloud_project"
+      set gcloud_project_info "$magenta$gcloud_project"
     end
   end
 
-  printf "$now$arrow$k8s_ctx_info$k8s_ns_info$gcloud_project_info $cwd $git_info $normal"
+  printf "$now$arrow $k8s_ctx_info$k8s_ns_info $gcloud_project_info $cwd $git_info $normal"
 end
