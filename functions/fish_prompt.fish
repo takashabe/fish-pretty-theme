@@ -89,7 +89,7 @@ function fish_prompt
   set -l flag_show_err_status $PROMPT_SHOW_ERR_STATUS
 
   # base colors: https://github.com/joshdick/onedark.vim
-  set -l cyan    (set_color -o c678dd)
+  set -l cyan    (set_color -o 56b6c2)
   set -l yellow  (set_color -o e5c07b)
   set -l red     (set_color -o e06c75)
   set -l blue    (set_color -o 61afef)
@@ -144,5 +144,5 @@ function fish_prompt
     end
   end
 
-  printf "$now $arrow$k8s_ctx_info$k8s_ns_info$gcloud_project_info|$cwd$git_info $normal"
+  printf "$now$arrow$k8s_ctx_info$k8s_ns_info$gcloud_project_info$cwd$git_info $normal"
 end
