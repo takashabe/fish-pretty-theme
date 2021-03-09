@@ -97,10 +97,10 @@ function fish_prompt
   set -l magenta (set_color -o c678dd)
   set -l normal  (set_color -o abb2bf)
 
-  set -l now (date "+[%H:%M:%S]")
+  set -l now $normal(date "+[%H:%M:%S]")
 
   if test $last_status = 0
-    set arrow $blue(_get_prompt_icon)
+    set arrow $normal(_get_prompt_icon)
   else
     set arrow $red(_get_prompt_error_icon)
     if test -n $flag_show_err_status
@@ -111,7 +111,7 @@ function fish_prompt
 
   if test (_git_branch_name)
     set -l git_branch (_git_branch_name)
-    set git_info " $blue- $git_branch"
+    set git_info "$green- $git_branch"
 
     if test (_is_git_dirty)
       set -l dirty "$red*"
