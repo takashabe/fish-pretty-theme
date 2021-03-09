@@ -76,14 +76,14 @@ function fish_prompt
   set -l flag_k8s_namespace $PROMPT_ENABLE_K8S_NAMESPACE
   set -l flag_gcloud_project $PROMPT_ENABLE_GCLOUD_PROJECT
 
-  # base colors: iceberg(https://github.com/cocopon/iceberg.vim)
-  set -l cyan    (set_color -o 89b8c2)
-  set -l yellow  (set_color -o e2a478)
-  set -l red     (set_color -o e27878)
-  set -l blue    (set_color -o 84a0c6)
-  set -l green   (set_color -o b4be82)
-  set -l magenta (set_color -o a093c7)
-  set -l normal  (set_color normal)
+  # base colors: https://github.com/joshdick/onedark.vim
+  set -l cyan    (set_color -o c678dd)
+  set -l yellow  (set_color -o e5c07b)
+  set -l red     (set_color -o e06c75)
+  set -l blue    (set_color -o 61afef)
+  set -l green   (set_color -o 98c379)
+  set -l magenta (set_color -o c678dd)
+  set -l normal  (set_color -o abb2bf)
 
   set -l now (date "+[%H:%M:%S]")
 
