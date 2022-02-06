@@ -90,14 +90,14 @@ function fish_prompt
 
   # sonokai-atlantis
   # https://gist.github.com/sainnhe/e5c4512d5bcfcb46afd493beb86223c6
-  set -l foreground (set_color 0xe1e3e4)
-  set -l red        (set_color 0xff6578)
-  set -l green      (set_color 0x9dd274)
-  set -l yellow     (set_color 0xeacb64)
-  set -l blue       (set_color 0x72cce8)
-  set -l magenta    (set_color 0xba9cf3)
-  set -l cyan       (set_color 0xf69c5e)
-  set -l white      (set_color 0xe1e3e4)
+  set -l foreground (set_color e1e3e4)
+  set -l red        (set_color ff6578)
+  set -l green      (set_color 9dd274)
+  set -l yellow     (set_color eacb64)
+  set -l blue       (set_color 72cce8)
+  set -l magenta    (set_color ba9cf3)
+  set -l cyan       (set_color f69c5e)
+  set -l white      (set_color e1e3e4)
 
   set -l now $foreground(date "+[%H:%M:%S]")
 
