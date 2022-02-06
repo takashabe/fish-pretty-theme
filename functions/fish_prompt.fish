@@ -88,18 +88,16 @@ function fish_prompt
   set -l flag_gcloud_project $PROMPT_ENABLE_GCLOUD_PROJECT
   set -l flag_show_err_status $PROMPT_SHOW_ERR_STATUS
 
-  # Dracula Color Palette
-  # https://github.com/dracula/fish/blob/master/conf.d/dracula.fish
-  set -l foreground (set_color f8f8f2)
-  set -l selection  (set_color 44475a)
-  set -l comment    (set_color 6272a4)
-  set -l red        (set_color ff5555)
-  set -l orange     (set_color ffb86c)
-  set -l yellow     (set_color f1fa8c)
-  set -l green      (set_color 50fa7b)
-  set -l purple     (set_color bd93f9)
-  set -l cyan       (set_color 8be9fd)
-  set -l pink       (set_color ff79c6)
+  # sonokai-atlantis
+  # https://gist.github.com/sainnhe/e5c4512d5bcfcb46afd493beb86223c6
+  set -l foreground (set_color 0xe1e3e4)
+  set -l red        (set_color 0xff6578)
+  set -l green      (set_color 0x9dd274)
+  set -l yellow     (set_color 0xeacb64)
+  set -l blue       (set_color 0x72cce8)
+  set -l magenta    (set_color 0xba9cf3)
+  set -l cyan       (set_color 0xf69c5e)
+  set -l white      (set_color 0xe1e3e4)
 
   set -l now $foreground(date "+[%H:%M:%S]")
 
@@ -137,7 +135,7 @@ function fish_prompt
   if test $flag_k8s_namespace -eq 1
     set -l k8s_ns_raw (_k8s_namespace)
     if test -n $k8s_ns_raw
-      set k8s_ns_info "$purple($k8s_ns_raw)"
+      set k8s_ns_info "$magenta($k8s_ns_raw)"
     end
   end
 
