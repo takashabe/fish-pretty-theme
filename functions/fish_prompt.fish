@@ -90,7 +90,9 @@ function fish_prompt
 
   # sonokai-atlantis
   # https://gist.github.com/sainnhe/e5c4512d5bcfcb46afd493beb86223c6
+  set -l background (set_color 2a2f38)
   set -l foreground (set_color e1e3e4)
+  set -l black      (set_color 181a1c)
   set -l red        (set_color ff6578)
   set -l green      (set_color 9dd274)
   set -l yellow     (set_color eacb64)
@@ -99,7 +101,7 @@ function fish_prompt
   set -l cyan       (set_color f69c5e)
   set -l white      (set_color e1e3e4)
 
-  set -l now $foreground(date "+[%H:%M:%S]")
+  set -l now $magenta(date "+[%H:%M:%S]")
 
   if test $last_status = 0
     set arrow $foreground(_get_prompt_icon)
@@ -109,11 +111,11 @@ function fish_prompt
       set arrow "$arrow $last_status"
     end
   end
-  set -l cwd $cyan(prompt_pwd)
+  set -l cwd $green(prompt_pwd)
 
   if test (_git_branch_name)
     set -l git_branch (_git_branch_name)
-    set git_info " $orange- $git_branch"
+    set git_info " $white- $git_branch"
 
     if test (_is_git_dirty)
       set -l dirty "$red*"
@@ -142,7 +144,7 @@ function fish_prompt
   if test $flag_gcloud_project -eq 1
     set -l gcloud_project (_gcloud_project)
     if test -n $gcloud_project
-      set gcloud_project_info " $pink$gcloud_project"
+      set gcloud_project_info " $blue$gcloud_project"
     end
   end
 
