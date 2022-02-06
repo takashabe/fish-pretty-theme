@@ -90,16 +90,16 @@ function fish_prompt
 
   # Dracula Color Palette
   # https://github.com/dracula/fish/blob/master/conf.d/dracula.fish
-  set -l foreground f8f8f2
-  set -l selection 44475a
-  set -l comment 6272a4
-  set -l red ff5555
-  set -l orange ffb86c
-  set -l yellow f1fa8c
-  set -l green 50fa7b
-  set -l purple bd93f9
-  set -l cyan 8be9fd
-  set -l pink ff79c6
+  set -l foreground (setcolor f8f8f2)
+  set -l selection  (setcolor 44475a)
+  set -l comment    (setcolor 6272a4)
+  set -l red        (setcolor ff5555)
+  set -l orange     (setcolor ffb86c)
+  set -l yellow     (setcolor f1fa8c)
+  set -l green      (setcolor 50fa7b)
+  set -l purple     (setcolor bd93f9)
+  set -l cyan       (setcolor 8be9fd)
+  set -l pink       (setcolor ff79c6)
 
   set -l now $foreground(date "+[%H:%M:%S]")
 
