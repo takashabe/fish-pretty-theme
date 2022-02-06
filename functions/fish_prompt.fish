@@ -88,19 +88,23 @@ function fish_prompt
   set -l flag_gcloud_project $PROMPT_ENABLE_GCLOUD_PROJECT
   set -l flag_show_err_status $PROMPT_SHOW_ERR_STATUS
 
-  # base colors: https://github.com/joshdick/onedark.vim
-  set -l cyan    (set_color 56b6c2)
-  set -l yellow  (set_color e5c07b)
-  set -l red     (set_color e06c75)
-  set -l blue    (set_color 61afef)
-  set -l green   (set_color 98c379)
-  set -l magenta (set_color c678dd)
-  set -l normal  (set_color abb2bf)
+  # Dracula Color Palette
+  # https://github.com/dracula/fish/blob/master/conf.d/dracula.fish
+  set -l foreground f8f8f2
+  set -l selection 44475a
+  set -l comment 6272a4
+  set -l red ff5555
+  set -l orange ffb86c
+  set -l yellow f1fa8c
+  set -l green 50fa7b
+  set -l purple bd93f9
+  set -l cyan 8be9fd
+  set -l pink ff79c6
 
-  set -l now $normal(date "+[%H:%M:%S]")
+  set -l now $foreground(date "+[%H:%M:%S]")
 
   if test $last_status = 0
-    set arrow $normal(_get_prompt_icon)
+    set arrow $foreground(_get_prompt_icon)
   else
     set arrow $red(_get_prompt_error_icon)
     if test -n $flag_show_err_status
@@ -133,16 +137,16 @@ function fish_prompt
   if test $flag_k8s_namespace -eq 1
     set -l k8s_ns_raw (_k8s_namespace)
     if test -n $k8s_ns_raw
-      set k8s_ns_info "$blue($k8s_ns_raw)"
+      set k8s_ns_info "$purple($k8s_ns_raw)"
     end
   end
 
   if test $flag_gcloud_project -eq 1
     set -l gcloud_project (_gcloud_project)
     if test -n $gcloud_project
-      set gcloud_project_info " $magenta$gcloud_project"
+      set gcloud_project_info " $pink$gcloud_project"
     end
   end
 
-  printf "$now$arrow$k8s_ctx_info$k8s_ns_info$gcloud_project_info $cwd$git_info $normal"
+  printf "$now$arrow$k8s_ctx_info$k8s_ns_info$gcloud_project_info $cwd$git_info $foreground"
 end
