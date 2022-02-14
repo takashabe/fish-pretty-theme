@@ -88,17 +88,17 @@ function fish_prompt
   set -l flag_gcloud_project $PROMPT_ENABLE_GCLOUD_PROJECT
   set -l flag_show_err_status $PROMPT_SHOW_ERR_STATUS
 
-  # sonokai-atlantis
+  # sonokai-andromeda
   # https://gist.github.com/sainnhe/e5c4512d5bcfcb46afd493beb86223c6
-  set -l background (set_color 2a2f38)
+  set -l background (set_color 2b2d3a)
   set -l foreground (set_color e1e3e4)
   set -l black      (set_color 181a1c)
-  set -l red        (set_color ff6578)
-  set -l green      (set_color 9dd274)
-  set -l yellow     (set_color eacb64)
-  set -l blue       (set_color 72cce8)
-  set -l magenta    (set_color ba9cf3)
-  set -l cyan       (set_color f69c5e)
+  set -l red        (set_color fb617e)
+  set -l green      (set_color 9ed06c)
+  set -l yellow     (set_color edc763)
+  set -l blue       (set_color 6dcae8)
+  set -l magenta    (set_color bb97ee)
+  set -l cyan       (set_color f89860)
   set -l white      (set_color e1e3e4)
 
   set -l now $magenta(date "+[%H:%M:%S]")
