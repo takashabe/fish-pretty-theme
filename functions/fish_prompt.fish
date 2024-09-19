@@ -82,43 +82,46 @@ end
 function fish_prompt
   set -l last_status $status
 
+  set -l color_normal (set_color $fish_color_normal)
+  set -l color_command (set_color $fish_color_command)
+  set -l color_keyword (set_color $fish_color_keyword)
+  set -l color_quote (set_color $fish_color_quote)
+  set -l color_redirection (set_color $fish_color_redirection)
+  set -l color_end (set_color $fish_color_end)
+  set -l color_option (set_color $fish_color_option)
+  set -l color_error (set_color $fish_color_error)
+  set -l color_param (set_color $fish_color_param)
+  set -l color_comment (set_color $fish_color_comment)
+  set -l color_selection --background=(set_color $selection)
+  set -l color_search_match --background=(set_color $selection)
+  set -l color_operator (set_color $fish_color_operator)
+  set -l color_escape (set_color $fish_color_escape)
+  set -l color_autosuggestion (set_color $fish_color_autosuggestion)
+
   # optional prompt
   set -l flag_k8s_context $PROMPT_ENABLE_K8S_CONTEXT
   set -l flag_k8s_namespace $PROMPT_ENABLE_K8S_NAMESPACE
   set -l flag_gcloud_project $PROMPT_ENABLE_GCLOUD_PROJECT
   set -l flag_show_err_status $PROMPT_SHOW_ERR_STATUS
 
-  # sonokai-andromeda
-  # https://gist.github.com/sainnhe/e5c4512d5bcfcb46afd493beb86223c6
-  set -l background (set_color 2b2d3a)
-  set -l foreground (set_color e1e3e4)
-  set -l black      (set_color 181a1c)
-  set -l red        (set_color fb617e)
-  set -l green      (set_color 9ed06c)
-  set -l yellow     (set_color edc763)
-  set -l blue       (set_color 6dcae8)
-  set -l magenta    (set_color bb97ee)
-  set -l cyan       (set_color f89860)
-  set -l white      (set_color e1e3e4)
+  set -l now $color_option(date "+[%H:%M:%S]")
 
-  set -l now $magenta(date "+[%H:%M:%S]")
-
-  if test $last_status = 0
-    set arrow $foreground(_get_prompt_icon)
+  if test $last_status -eq 0
+    set arrow $color_normal(_get_prompt_icon)
   else
-    set arrow $red(_get_prompt_error_icon)
+    set arrow $color_error(_get_prompt_error_icon)
     if test -n $flag_show_err_status
-      set arrow "$arrow $last_status"
+      set arrow "$arrow$last_status"
     end
   end
-  set -l cwd $green(prompt_pwd)
+  set -l cwd $color_operator(prompt_pwd)
 
   if test (_git_branch_name)
     set -l git_branch (_git_branch_name)
-    set git_info " $white- $git_branch"
+    set git_info " $color_normal- $git_branch"
 
     if test (_is_git_dirty)
-      set -l dirty "$red*"
+      set -l dirty "$color_error*"
       set git_info "$git_info$dirty"
     end
   end
@@ -127,9 +130,9 @@ function fish_prompt
     set -l k8s_ctx_raw (_k8s_short_context_name)
     if test -n $k8s_ctx_raw
       if test -n "$K8S_PRODUCTION_CONTEXT" -a $k8s_ctx_raw = "$K8S_PRODUCTION_CONTEXT"
-        set k8s_ctx_info " $red$k8s_ctx_raw"
+        set k8s_ctx_info "$color_keyword$k8s_ctx_raw"
       else
-        set k8s_ctx_info " $green$k8s_ctx_raw"
+        set k8s_ctx_info "$color_command$k8s_ctx_raw"
       end
     end
   end
@@ -137,16 +140,16 @@ function fish_prompt
   if test $flag_k8s_namespace -eq 1
     set -l k8s_ns_raw (_k8s_namespace)
     if test -n $k8s_ns_raw
-      set k8s_ns_info "$magenta($k8s_ns_raw)"
+      set k8s_ns_info "$color_param($k8s_ns_raw)"
     end
   end
 
   if test $flag_gcloud_project -eq 1
     set -l gcloud_project (_gcloud_project)
     if test -n $gcloud_project
-      set gcloud_project_info " $blue$gcloud_project"
+      set gcloud_project_info "$color_param$gcloud_project"
     end
   end
 
-  printf "$now$arrow$k8s_ctx_info$k8s_ns_info$gcloud_project_info $cwd$git_info $foreground"
+  printf "$now $arrow $k8s_ctx_info$k8s_ns_info $gcloud_project_info $cwd$git_info $foreground"
 end
