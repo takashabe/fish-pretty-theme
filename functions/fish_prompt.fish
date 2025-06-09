@@ -6,6 +6,30 @@ function _is_git_dirty
   echo (command git status -s --ignore-submodules=dirty $untracked 2> /dev/null)
 end
 
+function _git_root_dir
+  set -l root_dir (command git rev-parse --git-common-dir | xargs dirname 2> /dev/null)
+  if test -n "$root_dir"
+    echo $root_dir
+  else
+    echo ""
+  end
+end
+
+# NOTE: Expect git worktree directory is <root_dir>/<worktree_name>
+function _git_worktree_name
+  set -l root_dir (_git_root_dir)
+  set -l current_dir (command pwd)
+  echo "root-dir: $root_dir, current_dir: $current_dir" >2
+  # current_dir is a worktree directory if it starts with root-dir
+  if string match -q "$root_dir/*" $current_dir
+    set -l worktree_name (string replace -r "^$root_dir/" "" $current_dir)
+    echo "worktree_name: $worktree_name" >2
+    echo $worktree_name
+  else
+    echo ""
+  end
+end
+
 function _xdg_config_home
   set -l dir "$XDG_CONFIG_HOME"
   if test -n $dir
@@ -119,6 +143,13 @@ function fish_prompt
   if test (_git_branch_name)
     set -l git_branch (_git_branch_name)
     set git_info " $color_normal- $git_branch"
+
+    if test (_git_worktree_name)
+      set -l worktree_name (_git_worktree_name)
+      if test -n "$worktree_name"
+        set git_info "$git_info$color_comment<$worktree_name>"
+      end
+    end
 
     if test (_is_git_dirty)
       set -l dirty "$color_error*"
