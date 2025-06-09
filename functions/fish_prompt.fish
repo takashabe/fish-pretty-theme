@@ -19,12 +19,11 @@ end
 function _git_worktree_name
   set -l root_dir (_git_root_dir)
   set -l current_dir (command pwd)
-  echo "root-dir: $root_dir, current_dir: $current_dir" >2
   # current_dir is a worktree directory if it starts with root-dir
   if string match -q "$root_dir/*" $current_dir
-    set -l worktree_name (string replace -r "^$root_dir/" "" $current_dir)
-    echo "worktree_name: $worktree_name" >2
-    echo $worktree_name
+    set -l all_worktree_name (string replace -r "^$root_dir/" "" $current_dir)
+    # return the first part of the path as worktree name
+    echo (string split '/' $all_worktree_name)[1]
   else
     echo ""
   end
