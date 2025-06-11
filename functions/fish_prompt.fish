@@ -2,8 +2,32 @@ function _git_branch_name
   echo (command git symbolic-ref HEAD 2> /dev/null | sed -e 's|^refs/heads/||')
 end
 
+# Cache for git dirty check
+set -g __fish_git_prompt_dirty_cache
+set -g __fish_git_prompt_dirty_cache_time 0
+
 function _is_git_dirty
-  echo (command git status -s --ignore-submodules=dirty $untracked 2> /dev/null)
+  # Cache the result for 1 seconds to avoid repeated checks
+  set -l current_time (date +%s)
+  set -l cache_duration 1
+
+  if test (math "$current_time - $__fish_git_prompt_dirty_cache_time") -lt $cache_duration
+    echo $__fish_git_prompt_dirty_cache
+    return
+  end
+
+  # Use git diff-index for maximum performance
+  # --no-ext-diff: skip external diff drivers
+  # --no-textconv: skip text conversion
+  command git diff-index --no-ext-diff --quiet --exit-code HEAD -- 2> /dev/null
+  if test $status -ne 0
+    set -g __fish_git_prompt_dirty_cache "dirty"
+  else
+    set -g __fish_git_prompt_dirty_cache ""
+  end
+  set -g __fish_git_prompt_dirty_cache_time $current_time
+
+  echo $__fish_git_prompt_dirty_cache
 end
 
 function _git_root_dir
@@ -154,6 +178,10 @@ function fish_prompt
       set -l dirty "$color_error*"
       set git_info "$git_info$dirty"
     end
+  else
+    # Clear cache when not in git repo
+    set -g __fish_git_prompt_dirty_cache ""
+    set -g __fish_git_prompt_dirty_cache_time 0
   end
 
   if test $flag_k8s_context -eq 1
