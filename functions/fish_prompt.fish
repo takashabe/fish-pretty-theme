@@ -41,16 +41,36 @@ end
 
 # NOTE: Expect git worktree directory is <root_dir>/<worktree_name>
 function _git_worktree_name
-  set -l root_dir (_git_root_dir)
-  set -l current_dir (command pwd)
-  # current_dir is a worktree directory if it starts with root-dir
-  if string match -q "$root_dir/*" $current_dir
-    set -l all_worktree_name (string replace -r "^$root_dir/" "" $current_dir)
-    # return the first part of the path as worktree name
-    echo (string split '/' $all_worktree_name)[1]
-  else
+  set -l git_root (_git_root_dir)
+  set -l pwd (command pwd)
+
+  # If we're in the main worktree, return empty
+  if test "$pwd" = "$git_root"
     echo ""
+    return
   end
+
+  # Check if we're inside a worktree directory
+  if not string match -q "$git_root/*" $pwd
+    echo ""
+    return
+  end
+
+  # Get the relative path from git root
+  set -l relative_path (string replace -r "^$git_root/" "" $pwd)
+
+  # Handle custom worktree prefix (e.g., .git/.wkit-worktrees/)
+  if test -n "$GIT_WORKTREE_PREFIX"
+    if string match -q "$GIT_WORKTREE_PREFIX*" $relative_path
+      # Remove the prefix and return the worktree name
+      set -l escaped_prefix (string escape --style=regex "$GIT_WORKTREE_PREFIX")
+      echo (string replace -r "^$escaped_prefix" "" $relative_path)
+      return
+    end
+  end
+
+  # Default: return the first directory name as worktree name
+  echo (string split '/' $relative_path)[1]
 end
 
 function _xdg_config_home
