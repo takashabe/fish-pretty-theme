@@ -229,5 +229,8 @@ function fish_prompt
     end
   end
 
-  printf "$now $arrow $k8s_ctx_info$k8s_ns_info $gcloud_project_info $cwd$git_info $foreground"
+  # First line: information line
+  printf "$now $arrow $k8s_ctx_info$k8s_ns_info $gcloud_project_info $cwd$git_info\n"
+  # Second line: simple arrow prompt
+  printf "$color_normal→ $color_normal"
 end
