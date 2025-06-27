@@ -171,7 +171,8 @@ function fish_prompt
     set -l git_branch (_git_branch_name)
     set git_info " $color_normal- $git_branch"
 
-    if test (_is_git_worktree) -eq 0
+    set -l is_worktree (_is_git_worktree)
+    if test -n "$is_worktree"; and test "$is_worktree" -eq 0
       set git_info "$git_info$color_comment⚡"
     end
 
