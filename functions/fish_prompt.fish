@@ -41,16 +41,15 @@ end
 
 # Check if we're in a git worktree (not the main worktree)
 function _is_git_worktree
-  set -l git_root (_git_root_dir)
-  set -l pwd (command pwd)
+  # Check if .git is a file (worktree) instead of a directory (main repo)
+  set -l git_dir (command git rev-parse --git-dir 2> /dev/null)
 
-  # If we're in the main worktree, return empty
-  if test "$pwd" = "$git_root"
+  if test -z "$git_dir"
     return 1
   end
 
-  # Check if we're inside a worktree directory
-  if string match -q "$git_root/*" $pwd
+  # In a worktree, git-dir will contain .git/worktrees/
+  if string match -q "*.git/worktrees/*" $git_dir
     return 0
   end
 
@@ -171,9 +170,8 @@ function fish_prompt
     set -l git_branch (_git_branch_name)
     set git_info " $color_normal- $git_branch"
 
-    set -l is_worktree (_is_git_worktree)
-    if test -n "$is_worktree"; and test "$is_worktree" -eq 0
-      set git_info "$git_info$color_comment⚡"
+    if _is_git_worktree
+      set git_info "$git_info$color_comment🌲"
     end
 
     if test (_is_git_dirty)
