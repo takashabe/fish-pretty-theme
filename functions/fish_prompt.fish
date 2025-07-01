@@ -171,7 +171,7 @@ function fish_prompt
     set git_info " $color_normal- $git_branch"
 
     if _is_git_worktree
-      set git_info "$git_info$color_comment🌲"
+      set git_info "$git_info 🧬"
     end
 
     if test (_is_git_dirty)
